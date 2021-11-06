@@ -29,7 +29,7 @@ PACKAGEJSON_DIR="$(cd "${BIN_DIR}"/../../ && pwd)"
 readonly PACKAGEJSON_DIR
 
 # Ensure package.json could be found within the repository.
-if [ "${GIT_ROOT#${PACKAGEJSON_DIR}}" != "${GIT_ROOT}" ]; then
+if [ ! -f "${PACKAGEJSON_DIR}/package.json" ] && [ "${GIT_ROOT#${PACKAGEJSON_DIR}}" != "${GIT_ROOT}" ]; then
   echo "❌ Couldn't find a package.json-file"
   exit 1
 fi
