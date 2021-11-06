@@ -67,10 +67,10 @@ git add ./\*.ts
 commit --message='ts-migrate: Add migration annotations (@ts-expect-error and $TSFixMe)'
 
 echo "💅 Format..."
-"${BIN_DIR}"/prettier --write "**/*.ts"
+"${BIN_DIR}"/prettier --write " ${MIGRATION_DIR}/**/*.ts"
 commit --all --message="ts-migrate: Format TypeScript files"
 
 echo "✔︎ Typecheck..."
-"${BIN_DIR}"/tsc --noEmit
+"${BIN_DIR}"/tsc --noEmit --project "${MIGRATION_DIR}"/tsconfig.json
 
 echo "✨ Done migrating JavaScript to TypeScript. Now you can install more types, e.g. 'npm install --save-dev @types/lodash', add proper types wherever it says \$TSFixMe and re-run ts-migrate 'npx ts-migrate reignore ${MIGRATION_DIR_RELATIVE}'"
