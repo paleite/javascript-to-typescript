@@ -9,5 +9,5 @@ From the command line, navigate to the directory where your JavaScript repositor
 Example:
 
 ```sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/paleite/javascript-to-typescript/master/js2ts.sh)" src/
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/paleite/javascript-to-typescript/master/js2ts.sh)" -- src/
 ```
