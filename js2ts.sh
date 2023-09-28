@@ -19,14 +19,24 @@ readonly MIGRATION_DIR_RELATIVE
 MIGRATION_DIR="$(cd "${MIGRATION_DIR_RELATIVE}" && pwd)"
 readonly MIGRATION_DIR
 
-BIN_DIR="$(cd "${MIGRATION_DIR}" && npm bin)"
-readonly BIN_DIR
+# Manually find the closest package.json directory
+CURRENT_DIR="${MIGRATION_DIR}"
+
+while [[ "${CURRENT_DIR}" != "/" ]]; do
+  if [[ -f "${CURRENT_DIR}/package.json" ]]; then
+    PACKAGEJSON_DIR="${CURRENT_DIR}"
+    break
+  fi
+  CURRENT_DIR="$(dirname "${CURRENT_DIR}")"
+done
+readonly PACKAGEJSON_DIR
 
 GIT_ROOT="$(git rev-parse --show-toplevel)"
 readonly GIT_ROOT
 
-PACKAGEJSON_DIR="$(cd "${BIN_DIR}"/../../ && pwd)"
-readonly PACKAGEJSON_DIR
+# Mimic npm bin by appending /node_modules/.bin to the package.json directory
+BIN_DIR="${PACKAGEJSON_DIR}/node_modules/.bin"
+readonly BIN_DIR
 
 # Ensure package.json could be found within the repository.
 if [ ! -f "${PACKAGEJSON_DIR}/package.json" ] && [ "${GIT_ROOT#${PACKAGEJSON_DIR}}" != "${GIT_ROOT}" ]; then
